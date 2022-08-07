@@ -1,21 +1,27 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-            <form>
+            <form [formGroup]="projectForm" (ngSubmit)="onSubmitProjectForm()">
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" class="form-control">
+                    <label for="projectName">Project Name</label>
+                    <input type="text" class="form-control" id="projectName" formControlName="projectName">
+                    <span class="help-block" *ngIf="projectForm.get('projectName').errors['nameIsForbidden']">
+                        Please enter a valid project name!</span>
                 </div>
                 <div class="form-group">
-                    <label for="email">email</label>
-                    <input type="text" id="email" class="form-control">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" formControlName="email">
+                    <span class="help-block"
+                        *ngIf="projectForm.get('email').errors && projectForm.get('email').errors['emailIsForbidden']">
+                        Please enter a valid email!</span>
                 </div>
-                <div class="radio" *ngFor="let gender of genders">
-                    <label>
-                        <input type="radio" [value]="gender">{{ gender }}
-                    </label>
+                <div class="form-group">
+                    <label for="projectStatus">Project Status</label>
+                    <select name="projectStatus" class="form-control">
+                        <option *ngFor="let status of statusArray" [value]="status">{{status}}</option>
+                    </select>
                 </div>
-                <button class="btn btn-primary" type="submit">Submit</button>
+                <button class="btn btn-primary" [disabled]="projectForm.invalid">Submit</button>
             </form>
         </div>
     </div>
